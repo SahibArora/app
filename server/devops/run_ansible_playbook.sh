@@ -10,7 +10,7 @@ fi
 ENVIRONMENT=$1
 PLAYBOOK_FILE=$2
 
-if [[ "$ENVIRONMENT" != "staging" && "$ENVIRONMENT" != "production" ]]; then
+if [[ "$ENVIRONMENT" != "staging" && "$ENVIRONMENT" != "production" && "$ENVIRONMENT" != "dev" ]]; then
   echo "$ENVIRONMENT is not a valid environment."
   exit 1
 fi
