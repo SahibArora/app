@@ -1,20 +1,17 @@
 import { assert, spy } from 'sinon';
 import { ObjectId } from 'mongodb';
-
 import { createResponseWithStatusCode } from '../utils.js';
-import { getPage, getPagesWithTag, savePageAsGuest, savePage, deletePage, updatePage, movePage, uploadPageSnapshotToS3ServiceStub } from '../../src/service/pageService';
+import { getPage, getPagesWithTag, savePageAsGuest, savePage, deletePage, updatePage, movePage, uploadPageSnapshotToS3 } from '../../src/service/pageService';
 import * as pageCreator from '../../src/models/creator/pageCreator';
 
 const sinon = require('sinon');
-
+const mockedEnv = require('mocked-env');
 const sandbox = sinon.sandbox.create();
-const mockAWSSinon = require('mock-aws-sinon');
+const AWS = require('aws-sdk-mock');
 const Page = require('../../src/models/page.js');
 const User = require('../../src/models/user.js');
 const Folder = require('../../src/models/folder.js');
-
 const tag = 'Java';
-
 const pageData = {
   heading: 'Some heading',
   title: 'Some title',
@@ -53,10 +50,14 @@ let folderCountStub;
 let folderCountExecStub;
 let buildPageForUpdateFromRequestStub;
 let paginateSpy;
+let restoreMockedEnv;
 
 describe('pageService', () => {
-  describe('uploadPageSnapshotToS3ServiceStub', () => {
+  describe.only('uploadPageSnapshotToS3ServiceStub', () => {
     beforeEach(() => {
+      restoreMockedEnv = mockedEnv({
+        S3_BUCKET: 'test-s3-bucket',
+      });
       request = {
         body: {
           id: pageId,
@@ -72,12 +73,24 @@ describe('pageService', () => {
     });
 
     afterEach(() => {
+      restoreMockedEnv();
       sandbox.restore();
     });
 
     it('shall return error if image could not be deleted from s3', async () => {
-      // TODO add test
+      AWS.mock("S3", "deleteObject", function (error, callback) {
+        callback(null, null);
+      });
+
+      AWS.mock("S3", "putObject", function (error, response) {
+        callback(null, null);
+      });
+
+      uploadPageSnapshotToS3(request, response);
+
+      console.log("DONE");
     });
+
   });
 
   describe('getPage', () => {
@@ -632,6 +645,7 @@ describe('pageService', () => {
       assertFindOnePageWasCalledWithId();
     });
   });
+
 });
 
 function assertUpdatePageWasCalledWithLatestPageData() {

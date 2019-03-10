@@ -2,10 +2,8 @@ const Page = require('../models/page.js');
 const User = require('../models/user.js');
 const Folder = require('../models/folder.js');
 const AWS = require('aws-sdk');
-const s3 = new AWS.S3();
 const credentials = new AWS.SharedIniFileCredentials();
 AWS.config.credentials = credentials;
-const bucket = process.env.S3_BUCKET;
 import { buildPageForUpdateFromRequest } from '../models/creator/pageCreator';
 
 export async function getPage(req, res) {
@@ -87,8 +85,10 @@ export async function updatePage(req, res) {
 }
 
 export function uploadPageSnapshotToS3(req, res) {
+  const s3 = new AWS.S3();
   const fileName = `_Pebl_Snapshots/${req.body.id}.png`;
   const buffer = Buffer.from(req.body.image.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+  const bucket = process.env.S3_BUCKET;
   const params = {
     Bucket: bucket,
     Key: fileName,
@@ -101,8 +101,10 @@ export function uploadPageSnapshotToS3(req, res) {
     Bucket: bucket,
     Key: fileName
   };
+  console.log("1.");
   return s3.deleteObject(deleteParams, () => {
-    return s3.putObject(params, (uploadImageError, response) => {
+    console.log("2.");
+    return s3.putObject(params, (uploadImageError) => {
       if (uploadImageError) {
         return res.status(500).send(uploadImageError);
       }
@@ -161,7 +163,7 @@ export async function movePage(req, res) {
 function findPageAndUpdate(req, res, user, pageWithUpdatedData) {
   return Page.findOne({ id: req.body.id }, (pageFindError, retrievedPage) => {
     if (pageFindError || !retrievedPage || !retrievedPage.user) {
-      return res.status(500).send({ error: 'Could not retrieve page!'});
+      return res.status(500).send({ error: 'Could not retrieve page!' });
     }
     if (retrievedPage.user.toString() !== user._id.toString()) {
       return res.status(403).send({ error: 'Missing permission to update page' });
