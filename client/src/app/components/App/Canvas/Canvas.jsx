@@ -380,8 +380,8 @@ class Canvas extends React.Component {
                 tabIndex="0" // eslint-disable-line
                 onFocus={() => this.props.setCurrentWidget(id)}
               >
-                {this.props.preview || (
-                  <div className={`widget-nav__container${(this.props.currentWidget === id) ? '_highlighted' : ''}`}>
+                {false || (
+                  <div className='widget-nav__container_highlighted'>
                     <WidgetNav
                       id={id}
                     />
@@ -455,3 +455,13 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
+
+/*
+{this.props.preview || (
+  <div className={`widget-nav__container${(this.props.currentWidget === id) ? '_highlighted' : ''}`}>
+    <WidgetNav
+      id={id}
+    />
+  </div>
+)}
+*/

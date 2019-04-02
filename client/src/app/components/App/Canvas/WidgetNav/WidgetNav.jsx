@@ -7,6 +7,7 @@ import CopySVG from '../../../../images/copy.svg';
 import DragSVG from '../../../../images/drag.svg';
 
 import { duplicateEditor, removeEditor } from '../../../../action/editors.js';
+import RolloverText from '../../Shared/RolloverText/RolloverText.jsx';
 
 require('./widgetNav.scss');
 
@@ -27,19 +28,31 @@ class WidgetNav extends React.Component {
           onClick={this.duplicateEditor.bind(this)}
           data-test="widget__duplicate"
         >
-          <CopySVG alt="duplicate widget" />
+          <RolloverText
+            rolloverText="Duplicate"
+          >
+            <CopySVG alt="duplicate widget" />
+          </RolloverText>
         </button>
         <button
           className={`widget__close widget__drag drag__${this.props.id}`}
         >
-          <DragSVG alt="drag widget" />
+          <RolloverText
+            rolloverText="Drag and Drop"
+          >
+            <DragSVG alt="drag widget" />
+          </RolloverText>
         </button>
         <button
           className="widget__close"
           onClick={this.removeEditor.bind(this)}
           data-test="widget__close"
         >
-          <CloseSVG alt="close element" />
+          <RolloverText
+            rolloverText="Delete"
+          >
+            <CloseSVG alt="delete element" />
+          </RolloverText>
         </button>
       </nav>
     );

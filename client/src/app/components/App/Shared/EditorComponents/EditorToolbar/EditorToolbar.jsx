@@ -12,6 +12,7 @@ import axios from '../../../../../utils/axios';
 import { ProcessingWarning, WorkspaceLanguageConfirmation } from '../../../../../constants/codeConstants.js';
 import EditorOptions from '../EditorOptions/EditorOptions.jsx';
 import FileUpload from '../../FileUpload/FileUpload.jsx';
+import RolloverText from '../../RolloverText/RolloverText.jsx';
 
 const MEDIA_FILE_REGEX = /.+\.(gif|jpg|jpeg|png|bmp)$/i;
 
@@ -147,14 +148,23 @@ class EditorToolbar extends React.Component {
               }}
               data-test='play-sketch-button'
             >
-              <PlaySVG alt='Run Code' />
+              <RolloverText
+                rolloverText='Run Code'
+              >
+                <PlaySVG alt='Run Code' />
+              </RolloverText>
+
             </button>
             <button
               className={`editor-toolbar__svg ${!this.props.isPlaying ? 'editor-toolbar--isPaused' : ''}`}
               onClick={this.props.stopCode}
               data-test='pause-sketch-button'
             >
-              <PauseSVG alt='Pause Code' />
+              <RolloverText
+                rolloverText='Pause Code'
+              >
+                <PauseSVG alt='Pause Code' />
+              </RolloverText>
             </button>
           </div>
           <div className='editor-toolbar__button-container-right'>
