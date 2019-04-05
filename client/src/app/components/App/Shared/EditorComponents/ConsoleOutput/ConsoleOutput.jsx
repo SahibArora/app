@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
+import RolloverText from '../../RolloverText/RolloverText.jsx';
 
 require('./consoleOutput.scss');
 
@@ -18,7 +19,11 @@ class ConsoleOutput extends React.Component {
           <button
             className="console__toggle"
           >
-            {ReactHtmlParser(toggleButton)}
+            <RolloverText
+              rolloverText="Toggle Console"
+            >
+              {ReactHtmlParser(toggleButton)}
+            </RolloverText>
           </button>
         </nav>
         {this.props.isConsoleOpen && (

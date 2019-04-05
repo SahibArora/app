@@ -5,20 +5,21 @@
   &__container {
     position: relative;
     display: block;
+    z-index: $z-index-layer-4;
     &:hover .rollovertext__text{
       display: block;
     }
   }
   &__text {
-    display: none;
+    // display: none;
     background: $dark-gray;
     white-space: nowrap;
     padding: 0.25rem 0.5rem;
     color: $white;
     position: absolute;
-    bottom: 10px;
-    left: -20px;
     border: $white solid $small-border;
     border-radius: $small-border-radius/2;
+    z-index: $z-index-layer-4;
+    font-size: $small-font-size;
   }
 }

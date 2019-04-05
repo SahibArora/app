@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as navigationAction from '../../../action/navigation.js';
+import RolloverText from '../Shared/RolloverText/RolloverText.jsx';
 
 require('./navigation.scss');
 
@@ -38,7 +39,11 @@ class Navigation extends React.Component {
           className="navigation__open-button"
           onClick={this.props.openNavigationContent}
         >
-          <i className="fas fa-bars"></i>
+          <RolloverText
+            rolloverText="Table Of Contents"
+          >
+            <i className="fas fa-bars"></i>
+          </RolloverText>
         </button>
         {this.props.isNavigationOpen && (
           <section
@@ -50,14 +55,22 @@ class Navigation extends React.Component {
                   className="navigation__option-button"
                   onClick={() => { this.props.createNavigationContent(this.props.layout); }}
                 >
-                  <i className="fas fa-redo"></i>
+                  <RolloverText
+                    rolloverText="Refresh"
+                  >
+                    <i className="fas fa-redo"></i>
+                  </RolloverText>
                 </button>
               )}
               <button
                 className="navigation__option-button"
                 onClick={this.props.closeNavigationContent}
               >
-                <i className="fas fa-times"></i>
+                <RolloverText
+                  rolloverText="Close"
+                >
+                  <i className="fas fa-times"></i>
+                </RolloverText>
               </button>
             </nav>
             <li className="navigation__items">
